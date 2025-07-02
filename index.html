@@ -1,9 +1,363 @@
-<html>
- 
-<body>
-  <h1>Patrick Grandinetti</h1>
-  <p>Welcome to my website!</p>
-  <img src="https://content.codecademy.com/articles/github-pages-via-web-app/happy-ice-cream.gif" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposal: 2025 Support Team Offsite</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!--
+        Chosen Palette: Brilliant Blues
+        Application Structure Plan: The application is structured as a single-page, scrollable narrative. It begins with a strong executive summary, followed by a clear breakdown of objectives. Core details like the agenda, team, and budget are presented in visually distinct, interactive sections. This top-down structure allows a reader to quickly grasp the high-level value and then delve into specifics. The use of a world map visualizes the team's distributed nature, reinforcing the need for an in-person gathering, while the budget chart makes financial information easily digestible.
+        Visualization & Content Choices:
+        - Budget Breakdown: A doughnut chart (Chart.js) visually represents cost proportions, offering a quick understanding of where the budget is allocated. This complements the detailed table.
+        - Attendee Locations: An interactive world map (Leaflet.js) plots each manager's location, powerfully illustrating the team's global distribution and the value of bringing them together.
+        - Agenda: A clean, two-column table provides a clear, day-by-day schedule.
+        - Key Metrics & Objectives: Presented using card-based layouts with icons (Unicode) for high scannability and visual appeal.
+        CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .map-container {
+            height: 450px;
+            width: 100%;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            position: relative; 
+            z-index: 10;
+        }
+        .chart-container {
+            position: relative;
+            height: 40vh;
+            max-height: 400px;
+            width: 100%;
+            max-width: 450px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-xl font-bold text-gray-800">Support Manager Offsite 2025</div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="#overview" class="text-gray-600 hover:text-blue-600 transition">Overview</a>
+                <a href="#agenda" class="text-gray-600 hover:text-blue-600 transition">Agenda</a>
+                <a href="#team" class="text-gray-600 hover:text-blue-600 transition">Team</a>
+                <a href="#budget" class="text-gray-600 hover:text-blue-600 transition">Budget</a>
+                <a href="#next-steps" class="text-gray-600 hover:text-blue-600 transition">Next Steps</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        
+        <section id="overview" class="text-center py-16 px-4 fade-in-section">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Strategic Offsite Proposal: Support Managers</h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                This two-day offsite meeting for Support Team Managers in Chicago (September 4–5, 2025) will bring leaders together, strengthen connections, enhance teamwork, and speed up progress on 2026 department goals, fostering a shared vision for the Support team's future. This offsite is a key investment in our leaders, how we operate, and our company culture.
+            </p>
+        </section>
+
+        <section id="objectives" class="py-16 bg-white rounded-lg shadow-lg fade-in-section">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Core Objectives</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="p-6 rounded-lg text-center bg-gray-50 border border-gray-200">
+                        <div class="text-4xl text-blue-600 mb-3">🎯</div>
+                        <h3 class="text-xl font-semibold mb-2">Set Our Direction</h3>
+                        <p class="text-gray-700">Clearly define our goals for 2026 and review our progress against 2025 plans and key results.</p>
+                    </div>
+                    <div class="p-6 rounded-lg text-center bg-gray-50 border border-gray-200">
+                        <div class="text-4xl text-blue-600 mb-3">⚙️</div>
+                        <h3 class="text-xl font-semibold mb-2">Improve How We Work</h3>
+                        <p class="text-gray-700">Take a close look at our current operations, find ways to make things better, and create clear plans for improving Zendesk to work more efficiently.</p>
+                    </div>
+                    <div class="p-6 rounded-lg text-center bg-gray-50 border border-gray-200">
+                        <div class="text-4xl text-blue-600 mb-3">🌱</div>
+                        <h3 class="text-xl font-semibold mb-2">Grow as Leaders</h3>
+                        <p class="text-gray-700">Develop and expand our leadership skills and find new ways to make a bigger impact across the company.</p>
+                    </div>
+                    <div class="p-6 rounded-lg text-center bg-gray-50 border border-gray-200">
+                        <div class="text-4xl text-blue-600 mb-3">🤝</div>
+                        <h3 class="text-xl font-semibold mb-2">Build a Stronger Team</h3>
+                        <p class="text-gray-700">Strengthen trust and connection among our globally distributed team through dedicated team-building activities.</p>
+                    </div>
+                    <div class="p-6 rounded-lg text-center bg-gray-50 border border-gray-200">
+                        <div class="text-4xl text-blue-600 mb-3">🔗</div>
+                        <h3 class="text-xl font-semibold mb-2">Work Better Together</h3>
+                        <p class="text-gray-700">Hold in-person meetings with our Customer Success and Product teams to accelerate our joint efforts.</p>
+                    </div>
+                    <div class="p-6 rounded-lg text-center bg-gray-50 border border-gray-200">
+                        <div class="text-4xl text-blue-600 mb-3">💡</div>
+                        <h3 class="text-xl font-semibold mb-2">Innovate & Inspire</h3>
+                        <p class="text-gray-700">Generate fresh ideas and return to our teams re-energized and with a shared vision for success.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="agenda" class="py-16 fade-in-section">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Proposed Agenda</h2>
+            <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-lg">
+                <div class="flex flex-col md:flex-row -mx-4">
+                    <div class="md:w-1/2 px-4 mb-4 md:mb-0">
+                        <h3 class="text-2xl font-bold mb-4 text-blue-700 border-b-2 border-blue-200 pb-2">Day 1: Thursday, Sept. 4</h3>
+                        <ul class="space-y-4 text-gray-700">
+                            <li><strong>9:00 AM - 12:00 PM:</strong> Strategic Leadership Planning
+                                <ul class="list-disc pl-5 mt-1 text-gray-600">
+                                    <li>Whiteboard Session: Zendesk Enhancements & Roadmap</li>
+                                    <li>Group Evaluation: Progress Against 2025 OKRs</li>
+                                </ul>
+                            </li>
+                            <li><strong>12:00 PM - 1:00 PM:</strong> Team Lunch & Networking</li>
+                            <li><strong>1:00 PM - 4:00 PM:</strong> 2026 Departmental Goal Setting
+                                <ul class="list-disc pl-5 mt-1 text-gray-600">
+                                    <li>Prioritization & Resource Allocation</li>
+                                    <li>Identify Key Performance Indicators (KPIs)</li>
+                                </ul>
+                            </li>
+                            <li><strong>6:00 PM onwards:</strong> Team-Building Dinner & Activity</li>
+                        </ul>
+                    </div>
+                    <div class="md:w-1/2 px-4">
+                        <h3 class="text-2xl font-bold mb-4 text-blue-700 border-b-2 border-blue-200 pb-2">Day 2: Friday, Sept. 5</h3>
+                        <ul class="space-y-4 text-gray-700">
+                            <li><strong>9:00 AM - 12:00 PM:</strong> Cross-Functional Working Sessions
+                                <ul class="list-disc pl-5 mt-1 text-gray-600">
+                                    <li>Collaboration with CSM, Operations, and Product Teams</li>
+                                </ul>
+                            </li>
+                            <li><strong>12:00 PM - 1:00 PM:</strong> Working Lunch (Catered In)</li>
+                            <li><strong>1:00 PM - 4:00 PM:</strong> Wrap-up & Action Planning
+                                <ul class="list-disc pl-5 mt-1 text-gray-600">
+                                    <li>Define clear next steps and ownership</li>
+                                </ul>
+                            </li>
+                            <li><strong>4:00 PM onwards:</strong> Offsite Concludes & Departures</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="team" class="py-16 bg-white rounded-lg shadow-lg fade-in-section">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-4">Our Global Team</h2>
+                <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">We're bringing together 12 managers from across North America and Europe. This map illustrates the distributed nature of our team and why in-person collaboration is so valuable.</p>
+                <div id="map" class="map-container"></div>
+            </div>
+        </section>
+        
+        <section id="budget" class="py-16 fade-in-section">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Budget Breakdown</h2>
+                <div class="flex flex-col lg:flex-row items-center justify-center gap-12">
+                    <div class="w-full lg:w-1/2">
+                        <h3 class="text-2xl font-semibold mb-4 text-blue-700">Estimated Costs</h3>
+                        <div class="overflow-x-auto bg-white rounded-lg shadow-lg p-4">
+                            <table class="w-full text-left text-sm">
+                                <thead class="border-b-2 border-gray-200">
+                                    <tr>
+                                        <th class="py-2 px-4 font-semibold text-gray-600">Category</th>
+                                        <th class="py-2 px-4 font-semibold text-gray-600 text-right">Total</th>
+                                        <th class="py-2 px-4 font-semibold text-gray-600 text-right">Per Person</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b"><td class="py-2 px-4">Travel (Flights & Ground)</td><td class="py-2 px-4 text-right">$4,620</td><td class="py-2 px-4 text-right">$385</td></tr>
+                                    <tr class="border-b bg-gray-50"><td class="py-2 px-4">Accommodation (2 Nights)</td><td class="py-2 px-4 text-right">$4,500</td><td class="py-2 px-4 text-right">$375</td></tr>
+                                    <tr class="border-b"><td class="py-2 px-4">Meeting Space</td><td class="py-2 px-4 text-right">$1,400</td><td class="py-2 px-4 text-right">$117</td></tr>
+                                    <tr class="border-b bg-gray-50"><td class="py-2 px-4">Meals</td><td class="py-2 px-4 text-right">$2,640</td><td class="py-2 px-4 text-right">$220</td></tr>
+                                    <tr class="border-b"><td class="py-2 px-4">Team Activity</td><td class="py-2 px-4 text-right">$1,200</td><td class="py-2 px-4 text-right">$100</td></tr>
+                                    <tr class="border-b bg-gray-50"><td class="py-2 px-4">Contingency (10%)</td><td class="py-2 px-4 text-right">$1,436</td><td class="py-2 px-4 text-right">$120</td></tr>
+                                    <tr class="font-bold bg-blue-100"><td class="py-3 px-4 text-blue-800">Grand Total</td><td class="py-3 px-4 text-right text-blue-800">$15,796</td><td class="py-3 px-4 text-right text-blue-800">$1,317</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="w-full lg:w-1/2 flex flex-col items-center">
+                         <h3 class="text-2xl font-semibold mb-4 text-blue-700">Cost Distribution</h3>
+                        <div class="chart-container">
+                             <canvas id="budgetChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="next-steps" class="py-16 bg-white rounded-lg shadow-lg fade-in-section">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Proposed Timeline & Next Steps</h2>
+                <p class="text-lg text-gray-600 mb-8 max-w-3xl mx-auto">To ensure a successful and well-organized event, we propose the following timeline and actions. Your approval will set this plan in motion.</p>
+                <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
+                    <div class="p-6 rounded-lg bg-blue-50 text-left w-full md:w-1/3">
+                        <p class="text-xl font-bold text-blue-700 mb-2">Phase 1: Approval (1-2 Weeks)</p>
+                        <ul class="list-disc list-inside text-gray-700">
+                            <li>Secure final approval for the budget and plan.</li>
+                            <li>Confirm the final attendee list.</li>
+                        </ul>
+                    </div>
+                     <div class="p-6 rounded-lg bg-green-50 text-left w-full md:w-1/3">
+                        <p class="text-xl font-bold text-green-700 mb-2">Phase 2: Booking (2-4 Weeks)</p>
+                        <ul class="list-disc list-inside text-gray-700">
+                             <li>Lock in meeting venue and accommodations.</li>
+                             <li>Book all flights and ground transportation.</li>
+                             <li>Coordinate session details with cross-functional teams.</li>
+                        </ul>
+                    </div>
+                    <div class="p-6 rounded-lg bg-indigo-50 text-left w-full md:w-1/3">
+                        <p class="text-xl font-bold text-indigo-700 mb-2">Phase 3: Final Prep (4 Weeks Out)</p>
+                        <ul class="list-disc list-inside text-gray-700">
+                             <li>Finalize detailed daily agendas and materials.</li>
+                             <li>Arrange catering and team-building activity logistics.</li>
+                             <li>Send out a comprehensive pre-trip briefing to all attendees.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-white text-center py-6 mt-16">
+        <p>&copy; 2024 Your Company Name. Proposal for Internal Review.</p>
+    </footer>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        const sections = document.querySelectorAll('.fade-in-section');
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        const budgetData = {
+            labels: ['Travel', 'Hotel', 'Meeting Space', 'Meals', 'Activities', 'Contingency'],
+            datasets: [{
+                label: 'Cost Breakdown',
+                data: [4620, 4500, 1400, 2640, 1200, 1436],
+                backgroundColor: [
+                    '#3B82F6', 
+                    '#10B981', 
+                    '#F97316', 
+                    '#84CC16', 
+                    '#A855F7', 
+                    '#6366F1'  
+                ],
+                borderColor: '#F9FAFB', 
+                borderWidth: 3,
+                hoverOffset: 4
+            }]
+        };
+
+        const config = {
+            type: 'doughnut',
+            data: budgetData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            padding: 20,
+                            font: {
+                                size: 14,
+                                family: 'Inter, sans-serif'
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.raw !== null) {
+                                    label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.raw);
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                },
+                cutout: '60%'
+            }
+        };
+
+        const budgetChartCtx = document.getElementById('budgetChart').getContext('2d');
+        new Chart(budgetChartCtx, config);
+
+        const attendees = [
+            { name: 'Patrick Grandinetti', location: [41.8781, -87.6298], city: 'Chicago, IL' },
+            { name: 'David Cady Jr.', location: [41.8781, -87.6298], city: 'Chicago, IL' },
+            { name: 'Carlos Cortorreal', location: [41.8781, -87.6298], city: 'Chicago, IL' },
+            { name: 'Chris Billingsley', location: [41.8781, -87.6298], city: 'Chicago, IL' },
+            { name: 'Ryan Kingsmith', location: [45.5231, -122.6765], city: 'Portland, OR' },
+            { name: 'Sarah Bernhard', location: [45.5231, -122.6765], city: 'Portland, OR' },
+            { name: 'Carrie Landers', location: [39.7589, -84.1916], city: 'Dayton, OH' },
+            { name: 'Matt Marshburn', location: [30.2672, -97.7431], city: 'Austin, TX' },
+            { name: 'April Wilson', location: [29.2108, -81.0228], city: 'Daytona, FL' },
+            { name: 'John Kim', location: [43.4643, -79.5194], city: 'Toronto, ON' }, 
+            { name: 'Stoyan Ivanov', location: [43.2141, 27.9147], city: 'Varna, BG' },
+            { name: 'Steve Sabo', location: [51.5074, -0.1278], city: 'London, UK' }
+        ];
+
+        const mapContainer = document.getElementById('map');
+        if (mapContainer && !mapContainer._leaflet_id) { 
+            const map = L.map('map').setView([45, -40], 2.5);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            const customIcon = L.divIcon({
+                className: 'custom-div-icon',
+                html: "<div style='background-color:#1D4ED8;width:1.5rem;height:1.5rem;border-radius:50%;border: 2px solid white;box-shadow: 0 0 5px rgba(0,0,0,0.5);'></div>",
+                iconSize: [24, 24],
+                iconAnchor: [12, 12]
+            });
+
+            attendees.forEach(attendee => {
+                L.marker(attendee.location, { icon: customIcon })
+                    .addTo(map)
+                    .bindPopup(`<b>${attendee.name}</b><br>${attendee.city}`);
+            });
+        }
+    });
+    </script>
 </body>
- 
 </html>
